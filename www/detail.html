@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+  <link rel="stylesheet" href="css/ratchet.min.css">
+  <link rel="stylesheet" href="css/ratchet-theme-ios.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <script src="js/ratchet.min.js"></script>
+  <title>Mad Discovery</title>
+</head>
+
+<body>
+  <a href="detail.html">Details</a>
+  <a href="detail.html" data-transition="slide-out">Detail</a>
+  <header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" href="index.html" data-transition="slide-in"></a>
+    <a class="icon icon-refresh pull-right"></a>
+    <h1 class="title">Detail</h1>
+  </header>
+  <div class="content detail">
+    <div class="input-group">
+      <div class="input-row">
+        <label>Name</label>
+        <input type="text" id="txtEventName">
+      </div>
+      <div class="input-row">
+        <label>Organizer</label>
+        <input type="text" id="txtEventOrgName">
+      </div>
+      <div class="input-row">
+        <label>Location</label>
+        <input type="text" id="txtEventLocation">
+      </div>
+    </div>
+    <div class="input-group datetime">
+      <div class="input-row">
+        <label>Date</label>
+        <input type="date" id="txtEventDate">
+      </div>
+      <div class="input-row">
+        <label>Start time</label>
+        <input type="time" id="txtEventDateTime">
+      </div>
+      <div class="input-row">
+        <label>End</label>
+        <input type="date" id="txtEventEnd">
+      </div>
+      <div class="input-row">
+        <label>End time</label>
+        <input type="time" id="txtEventEndTime">
+      </div>
+    </div>
+  </div>
+  <nav class="bar bar-tab">
+    <a class="tab-item" href="index.html" data-transition="slide-in">
+      <span class="icon icon-home"></span>
+      <span class="tab-label">Events</span>
+    </a>
+
+    <a class="tab-item" href="new-event.html" data-transition="slide-in">
+      <span class="icon icon-star-filled"></span>
+      <span class="tab-label">New</span>
+    </a>
+    <a class="tab-item" href="search.html" data-transition="slide-in">
+      <span class="icon icon-search"></span>
+      <span class="tab-label">Search</span>
+    </a>
+  </nav>
+  <script type="text/javascript" src="cordova.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="js/DatabaseHandler.js"></script>
+</body>
+</html>
