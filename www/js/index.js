@@ -48,7 +48,7 @@ function loadIndex() {
 function loadSearch() {
   $('#btnSearch').on('touchstart', function() {
     console.log("Searched Event Succesfully!");
-    getListEventByName($("#inputSearch").val(), onSuccessful);
+    getListEventByName("%"+$("#inputSearch").val()+"%", onSuccessful);
   })
 }
 
