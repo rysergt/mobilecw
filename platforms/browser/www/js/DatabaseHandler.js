@@ -3,7 +3,7 @@ var db = null;
 function connectDB() {
     db = window.openDatabase("MadDiscovery", 1.0, "Mad Discovery", 2000000);
     if (db != null) {
-        console.log("CONNECT DATABASE OK");
+        console.log("Create Database Successfully!");
     }
 }
 
@@ -12,18 +12,18 @@ function createTable() {
         tx.executeSql("CREATE TABLE IF NOT EXISTS TBLEvent(ID INTEGER PRIMARY KEY, EventName, EventLocation, EventDate, EventOrgName, EventEnd);");
         tx.executeSql("CREATE TABLE IF NOT EXISTS TBLReport(ID INTEGER PRIMARY KEY, eventid, content, FOREIGN KEY(eventid) REFERENCES TBLEvent(ID));");
     }, function(err) {
-        console.log("CREATE TABLE ERROR " + err.code);
+        console.log("Create Tables Error: " + err.code);
     }, function() {
-        console.log("CREATE TABLE OK");
+        console.log("Create Tables Successfully!");
     });
 }
 function dropTable() {
     db.transaction(function(tx) {
         tx.executeSql("DROP TABLE TBLEvent");
     }, function(err) {
-        console.log("DROP TABLE ERROR " + err.code);
+        console.log("Drop Table Event Error: " + err.code);
     }, function() {
-        console.log("DROP TABLE SUCCESSFULLY");
+        console.log("Drop Table Event Successfully!");
     });
 }
 
@@ -32,7 +32,7 @@ function insertEvent(eventName, eventLocation, eventDate, eventOrgName, eventEnd
         tx.executeSql("INSERT INTO TBLEvent(EventName, EventLocation, EventDate, EventOrgName, EventEnd) VALUES(?, ?, ?, ?, ?);",
                         [eventName, eventLocation, eventDate, eventOrgName, eventEnd]);
     }, function(err) {
-        console.log("INSERT EVENT ERROR " + err.code);
+        console.log("Insert Event Error: " + err.code);
     }, function() {
         onSuccessful();
     });
@@ -43,7 +43,7 @@ function insertReport(eventid, content,onSuccessfulReport) {
         tx.executeSql("INSERT INTO TBLReport(eventid, content) VALUES(?, ?);",
                         [eventid, content]);
     }, function(err) {
-        console.log("INSERT REPORT ERROR " + err.code);
+        console.log("Insert Report Error: " + err.code);
     }, function() {
         onSuccessfulReport();
     });
@@ -62,7 +62,7 @@ function getListEvent(onSuccessful) {
             onSuccessful(listEvents);
         });
     }, function(err) {
-        console.log("GET LIST EVENT ERROR " + err.code);
+        console.log("Get List Events Error: " + err.code);
     });
 }
 function getListEventByName(eventName, onSuccessful) {
@@ -78,7 +78,7 @@ function getListEventByName(eventName, onSuccessful) {
             onSuccessful(listEvents);
         });
     }, function(err) {
-        console.log("GET LIST EVENT BY NAME ERROR " + err.message);
+        console.log("Get List Events By Name Error: " + err.message);
     });
 }
 
@@ -95,7 +95,7 @@ function getEventByID(eventid, showDetail) {
             showDetail(listEvents);
         });
     }, function(err) {
-        console.log("GET EVENT ERROR " + err.code);
+        console.log("Get Event Error: " + err.code);
     });
 }
 
@@ -111,7 +111,7 @@ function getListReport(onSuccessfulReport) {
             onSuccessfulReport(listReport);
         });
     }, function(err) {
-        console.log("GET LIST EVENT ERROR " + err.code);
+        console.log("Get List Events Error: " + err.code);
     });
 }
 function deleteEvent(eventID) {
@@ -119,9 +119,9 @@ function deleteEvent(eventID) {
         tx.executeSql("DELETE FROM TBLReport WHERE eventid = ?", [eventID]);
         tx.executeSql("DELETE FROM TBLEvent WHERE ID = ?", [eventID]);
     }, function(err) {
-        console.log("DELETE EVENT ERROR " + err.code);
+        console.log("Delete Event Error: " + err.code);
     }, function() {
-        console.log("DELETE EVENT OK");
+        console.log("Delete Event Successfully!");
     });
 }
 
@@ -130,7 +130,7 @@ function editEvent(eventName, eventLocation, eventDate, eventOrgName, eventEnd, 
         tx.executeSql("UPDATE TBLEvent SET EventName = ?, EventLocation = ?, EventDate = ?, EventOrgName = ?, EventEnd= ?, EventReport= ? WHERE ID = ?",
         [eventName, eventLocation, eventDate, eventOrgName, eventEnd, eventID]);
     }, function(err) {
-        console.log("EDIT EVENT ERROR " + err.code);
+        console.log("Edit Event Error: " + err.code);
     }, function() {
         onSuccessful();
     });
@@ -144,6 +144,6 @@ function searchEvent(eventID, onSuccessful) {
                             "EventOrgName": rs.rows.item(0).EventOrgName});
         });
     }, function(err) {
-        console.log("SEARCH EVENT ERROR " + err.code);
+        console.log("Search Event Error: " + err.code);
     });
 }

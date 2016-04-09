@@ -6,7 +6,7 @@ var app = {
     document.addEventListener('deviceready', this.onDeviceReady, false);
   },
   onDeviceReady: function() {
-    console.log('ready');
+    console.log('App is ready!');
     // dropTable();
     connectDB();
     createTable();
@@ -14,9 +14,6 @@ var app = {
 };
 
 window.addEventListener('push', function() {
-  //function nay goi la callback, khi ma chuyen trang thanh cong, thi no se goi ra ham` nay.
-  //lay ra url la index hay detail, hay new event, roi cat chuoi lay ra 2 ki tu dau tien
-  // neu la index la in, thi chay ham loadIndex()
   var p = window.location.pathname.substring(1, 3);
   switch (p) {
     case "in":
@@ -30,7 +27,6 @@ window.addEventListener('push', function() {
       loadNewEvent();
       break;
     case "se":
-      console.log("test");
       loadSearch();
       break;
     default:
@@ -42,21 +38,24 @@ window.addEventListener('push', function() {
 function loadDetail() {
   getEventByID(getEventIdSelected(), showDetail);
 }
+
 function loadIndex() {
   app.initialize();
   connectDB();
   getListEvent(onSuccessful);
 }
+
 function loadSearch() {
   $('#btnSearch').on('touchstart', function() {
-    console.log("test");
+    console.log("Searched Event Succesfully!");
     getListEventByName($("#inputSearch").val(), onSuccessful);
   })
 }
+
 function loadNewEvent() {
   $('#save-event').on('touchstart', function() {
     register();
-    console.log('done');
+    console.log('Add Event Succesfully!');
   })
 
   function register() {
@@ -74,14 +73,15 @@ function loadNewEvent() {
     if (txtEventName.value != "" && txtEventOrgName.value != "") {
       insertEvent(txtEventName.value, txtEventLocation.value, datestart, txtEventOrgName.value, datesend,
         function() {
-          console.log("Insert OK");
+          console.log("Add Event Succesfully!");
           console.log(datestart);
         });
     } else {
-      alert("Name and Organizer cannot blank");
+      alert("Name and Organizer can't be blank!");
     }
   }
 }
+
 function clearText() {
   var dcc = new DateTime();
   var d = new Date();
@@ -111,7 +111,6 @@ function getEventIdSelected() {
   return window.localStorage.getItem("eventSelected");
 }
 
-
 function showDetail(listEvents) {
   var txtEventName = document.getElementById("txtEventName");
   var txtEventLocation = document.getElementById("txtEventLocation");
@@ -129,12 +128,12 @@ function showDetail(listEvents) {
   txtEventEnd.value = listEvents[0]["EventEnd"].substring(0, 10);
   txtEventEndTime.value = listEvents[0]["EventEnd"].substring(12, 17);
 
-  console.log("name " + listEvents[0]["EventDate"].substring(12, 17));
+  console.log("Name " + listEvents[0]["EventDate"].substring(12, 17));
 }
 
 
 function confirmDelete() {
-  var rs = confirm("Are you sure to delete this event?");
+  var rs = confirm("Confirm deletion?");
   if (rs) {
     deleteEvent(this.id);
   }
