@@ -36,7 +36,23 @@ window.addEventListener('push', function() {
 });
 
 function loadDetail() {
+  var currentEventID = getEventIdSelected();
   getEventByID(getEventIdSelected(), showDetail);
+  getListReport(currentEventID, onSuccessfulReport);
+  var imageCaptured= "";
+
+  $('#save-report').on('touchstart', function() {
+    console.log($("#txtContent").val());
+    insertReport(currentEventID,$("#txtContent").val(), imageCaptured, function(){
+      getListReport(currentEventID, onSuccessfulReport);
+      $("#txtContent").val("");
+    });
+    console.log('Add Report Succesfully!');
+  })
+  $("#delete-event").on("touchstart", function(){
+    confirmDelete();
+    window.location = "index.html";
+  })
 }
 
 function loadIndex() {
@@ -48,7 +64,7 @@ function loadIndex() {
 function loadSearch() {
   $('#btnSearch').on('touchstart', function() {
     console.log("Searched Event Succesfully!");
-    getListEventByName($("#inputSearch").val(), onSuccessful);
+    getListEventByName("%"+$("#inputSearch").val()+"%", onSuccessful);
   })
 }
 
@@ -131,11 +147,17 @@ function showDetail(listEvents) {
   console.log("Name " + listEvents[0]["EventDate"].substring(12, 17));
 }
 
-
+function removeReport(id){
+  var rs = confirm("Confirm deletion?");
+  if (rs) {
+    $("#r"+id).hide();
+    deleteReport(id);
+  }
+}
 function confirmDelete() {
   var rs = confirm("Confirm deletion?");
   if (rs) {
-    deleteEvent(this.id);
+    deleteEvent(getEventIdSelected());
   }
 }
 
@@ -167,4 +189,36 @@ function onSuccessful(listEvents) {
       setEventIdSlected(this.id);
     });
   }
+}
+function onSuccessfulReport(listReport) {
+  var numberOfReport = listReport.length;
+  var listReportItem = "";
+  if (numberOfReport == 0) {
+    listEventItem = "<h3 class='no-events'>No report</h3>";
+  }
+  // loop for list events
+  for (var i = 0; i < numberOfReport; i++) {
+    var id = listReport[i]["ID"];
+    var eventID = listReport[i]["EventID"];
+    var content = listReport[i]["Content"];
+    var images = listReport[i]["Image"];
+    listReportItem += "<li class='table-view-cell media' id='r"+id+"'  onclick='removeReport("+id+")'><a class='navigate-right'><img class='media-object pull-left' src='"+images+"'><div class='media-body'><p>"+content+"</p></div></a></li>";
+  }
+
+  $("#list-report").html(listReportItem);
+}
+
+//take photo
+function capture(){
+  navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+      destinationType: Camera.DestinationType.FILE_URI });
+}
+
+function onSuccess(imageURI) {
+    var image = document.getElementById('myImage');
+    image.src = imageURI;
+}
+
+function onFail(message) {
+    alert('Failed because: ' + message);
 }

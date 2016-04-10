@@ -20,8 +20,9 @@
   <a href="detail.html" data-transition="slide-out">Detail</a>
   <header class="bar bar-nav">
     <a class="icon icon-left-nav pull-left" href="index.html" data-transition="slide-in"></a>
+    <a class="icon icon-trash pull-right" href="index.html" data-transition="slide-in" id="delete-event"></a>
     <a class="icon icon-edit pull-right"></a>
-    <h1 class="title">Detail</h1>
+    <h1 class="title">Details</h1>
   </header>
   <div class="content detail">
     <div class="input-group">
@@ -55,6 +56,50 @@
         <label>End time</label>
         <input type="time" id="txtEventEndTime">
       </div>
+      <div class="input-row">
+        <label>
+          <a href="#myModal">
+            View reports
+          </a>
+        </label>
+
+      </div>
+    </div>
+
+  <!-- modal for view list review -->
+    <div id="myModal" class="modal">
+      <header class="bar bar-nav">
+        <a class="icon icon-compose pull-right" href="#newReport" data-transition="slide-in"></a>
+        <a class="icon icon-left-nav pull-left" href="#myModal"></a>
+        <h1 class="title">Reports</h1>
+      </header>
+      <div class="content">
+        <ul class="table-view" id="list-report">
+        </ul>
+      </div>
+    </div>
+
+    <!-- modal for create new report -->
+    <div id="newReport" class="modal">
+      <header class="bar bar-nav">
+        <a class="icon icon-compose pull-right" href="#newReport" id="save-report"></a>
+        <a class="icon icon-left-nav pull-left" href="#newReport"></a>
+        <h1 class="title">New Report</h1>
+      </header>
+      <div class="content">
+        <div class="input-group">
+            <label>Content</label>
+            <textarea rows="4" cols="50" id="txtContent"></textarea>
+        </div>
+        <div class="input-group">
+          <div class="input-row" onclick="capture()">
+            <label style="width: 100%">Capture a photo</label>
+          </div>
+          <div class="input-row" onclick="getPicture()">
+            <label style="width: 100%">Choose a photo exists</label>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -78,4 +123,5 @@
   <script type="text/javascript" src="js/index.js"></script>
   <script type="text/javascript" src="js/DatabaseHandler.js"></script>
 </body>
+
 </html>

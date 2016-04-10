@@ -10,7 +10,7 @@ function connectDB() {
 function createTable() {
     db.transaction(function(tx) {
         tx.executeSql("CREATE TABLE IF NOT EXISTS TBLEvent(ID INTEGER PRIMARY KEY, EventName, EventLocation, EventDate, EventOrgName, EventEnd);");
-        tx.executeSql("CREATE TABLE IF NOT EXISTS TBLReport(ID INTEGER PRIMARY KEY, eventid, content, FOREIGN KEY(eventid) REFERENCES TBLEvent(ID));");
+        tx.executeSql("CREATE TABLE IF NOT EXISTS TBLReport(ID INTEGER PRIMARY KEY, eventid, content, images, FOREIGN KEY(eventid) REFERENCES TBLEvent(ID));");
     }, function(err) {
         console.log("Create Tables Error: " + err.code);
     }, function() {
@@ -19,6 +19,7 @@ function createTable() {
 }
 function dropTable() {
     db.transaction(function(tx) {
+      tx.executeSql("DROP TABLE TBLReport");
         tx.executeSql("DROP TABLE TBLEvent");
     }, function(err) {
         console.log("Drop Table Event Error: " + err.code);
@@ -38,10 +39,10 @@ function insertEvent(eventName, eventLocation, eventDate, eventOrgName, eventEnd
     });
 }
 
-function insertReport(eventid, content,onSuccessfulReport) {
+function insertReport(eventid, content,images,onSuccessfulReport) {
     db.transaction(function(tx) {
-        tx.executeSql("INSERT INTO TBLReport(eventid, content) VALUES(?, ?);",
-                        [eventid, content]);
+        tx.executeSql("INSERT INTO TBLReport(eventid, content,images) VALUES(?, ?,?);",
+                        [eventid, content,images]);
     }, function(err) {
         console.log("Insert Report Error: " + err.code);
     }, function() {
@@ -99,19 +100,19 @@ function getEventByID(eventid, showDetail) {
     });
 }
 
-function getListReport(onSuccessfulReport) {
+function getListReport(eventID, onSuccessfulReport) {
     db.transaction(function(tx) {
-        tx.executeSql("SELECT * FROM TBLReport;", [], function(tx, rs) {
+        tx.executeSql("SELECT * FROM TBLReport WHERE eventid = ?;", [eventID], function(tx, rs) {
             var numberOfEvent = rs.rows.length;
-            var listEvents = [];
+            var listReport = [];
             for (var i = 0; i < numberOfEvent; i++) {
-                listEvents.push({"ID": rs.rows.item(i).ID, "Event ID": rs.rows.item(i).eventid,
-                "Content": rs.rows.item(i).content});
+                listReport.push({"ID": rs.rows.item(i).ID, "EventID": rs.rows.item(i).eventid,
+                "Content": rs.rows.item(i).content, "Image":rs.rows.item(i).images});
             }
             onSuccessfulReport(listReport);
         });
     }, function(err) {
-        console.log("Get List Events Error: " + err.code);
+        console.log("Get List Reports Error: " + err.message);
     });
 }
 function deleteEvent(eventID) {
@@ -122,6 +123,16 @@ function deleteEvent(eventID) {
         console.log("Delete Event Error: " + err.code);
     }, function() {
         console.log("Delete Event Successfully!");
+    });
+}
+
+function deleteReport(id) {
+    db.transaction(function(tx) {
+        tx.executeSql("DELETE FROM TBLReport WHERE ID = ?", [id]);
+    }, function(err) {
+        console.log("Delete Report Error: " + err.code);
+    }, function() {
+        console.log("Delete Report Successfully!");
     });
 }
 
