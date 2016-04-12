@@ -9,6 +9,9 @@
 .input-group:first-child{
   margin-top: 35px;
 }
+.modal{
+  z-index: 9999999 !important;
+}
 .input-group{
   margin-bottom: 35px;
 }
@@ -18,6 +21,9 @@
 .media-object{
   border: solid 1px #eee;
   padding: 2px;
+}
+.media-body p{
+   word-break: break-all
 }
 .date, .month{
   text-align: center;
