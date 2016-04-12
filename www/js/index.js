@@ -7,26 +7,27 @@ var app = {
   },
   onDeviceReady: function() {
     console.log('App is ready!');
-    // dropTable();
+    //dropTable();
     connectDB();
     createTable();
   },
 };
 
 window.addEventListener('push', function() {
-  var p = window.location.pathname.substring(1, 3);
-  switch (p) {
-    case "in":
+  var p = window.location.pathname.split("/");
+  console.log(p[p.length-1]);
+  switch (p[p.length-1]) {
+    case "index.html":
       loadIndex();
       break;
-    case "de":
+    case "detail.html":
       loadDetail();
       break;
-    case "ne":
+    case "new-event.html":
       clearText();
       loadNewEvent();
       break;
-    case "se":
+    case "search.html":
       loadSearch();
       break;
     default:
@@ -36,6 +37,7 @@ window.addEventListener('push', function() {
 });
 
 function loadDetail() {
+  console.log("detail loaded");
   var currentEventID = getEventIdSelected();
   getEventByID(getEventIdSelected(), showDetail);
   getListReport(currentEventID, onSuccessfulReport);
@@ -62,6 +64,7 @@ function loadIndex() {
 }
 
 function loadSearch() {
+  console.log("search loaded");
   $('#btnSearch').on('touchstart', function() {
     console.log("Searched Event Succesfully!");
     getListEventByName("%"+$("#inputSearch").val()+"%", onSuccessful);
@@ -69,6 +72,7 @@ function loadSearch() {
 }
 
 function loadNewEvent() {
+  console.log("loaded event");
   $('#save-event').on('touchstart', function() {
     register();
     console.log('Add Event Succesfully!');
